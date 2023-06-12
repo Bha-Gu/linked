@@ -13,6 +13,16 @@ pub struct Stack<T: Clone> {
     head: Option<*mut SNode<T>>,
 }
 
+impl<T: Clone> Drop for Stack<T> {
+    fn drop(&mut self) {
+        loop {
+            if self.pop().is_none() {
+                break;
+            }
+        }
+    }
+}
+
 impl<T: Clone> Stack<T> {
     pub fn new() -> Self {
         Self { len: 0, head: None }
