@@ -1,38 +1,35 @@
 #[derive(Debug, Clone)]
 struct SNode<T>
-where T: Clone,
+where
+    T: Clone,
 {
     data: T,
     prev: Option<*mut SNode<T>>,
 }
 
 #[derive(Debug, Clone)]
-pub struct Stack<T: Clone>{
+pub struct Stack<T: Clone> {
     pub len: usize,
-    head: Option<*mut SNode<T>> ,
+    head: Option<*mut SNode<T>>,
 }
 
 impl<T: Clone> Stack<T> {
     pub fn new() -> Self {
-        Self {
-            len: 0,
-            head: None,
-        }
+        Self { len: 0, head: None }
     }
 
     pub fn push(&mut self, data: T) {
-        
-
         self.len += 1;
         if self.head.is_some() {
-            unsafe {
-                let node = Box::new(SNode {data, prev: self.head});
-                let raw = Box::into_raw(node);
-                self.head = Some(raw);
-            }
-        }else {
-            let node = Box::new(SNode {data, prev: None});
-            let raw = Box::into_raw(node); 
+            let node = Box::new(SNode {
+                data,
+                prev: self.head,
+            });
+            let raw = Box::into_raw(node);
+            self.head = Some(raw);
+        } else {
+            let node = Box::new(SNode { data, prev: None });
+            let raw = Box::into_raw(node);
             self.head = Some(raw);
         }
     }
@@ -46,12 +43,12 @@ impl<T: Clone> Stack<T> {
                 let layout = Layout::for_value(&*head);
                 dealloc(*head as *mut u8, layout);
                 self.head = prev;
-                if self.len > 0{
+                if self.len > 0 {
                     self.len -= 1;
-                } 
+                }
                 Some(data)
             }
-        }else {
+        } else {
             None
         }
     }

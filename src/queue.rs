@@ -14,7 +14,6 @@ pub struct Queue<T: std::clone::Clone> {
     tail: Option<*mut QNode<T>>,
 }
 
-
 impl<T: std::clone::Clone> Drop for Queue<T> {
     fn drop(&mut self) {
         loop {
@@ -24,7 +23,6 @@ impl<T: std::clone::Clone> Drop for Queue<T> {
         }
     }
 }
-
 
 impl<T: std::clone::Clone> Queue<T> {
     pub fn new() -> Self {
@@ -42,7 +40,7 @@ impl<T: std::clone::Clone> Queue<T> {
         self.length += 1;
         if self.tail.is_some() {
             unsafe {
-                //1 self.tail.next = node 
+                //1 self.tail.next = node
                 // double deref one for pointer one for mutable borrow
                 (**self.tail.as_mut().unwrap()).next = Some(raw);
                 //2 self.tail = node
@@ -67,7 +65,7 @@ impl<T: std::clone::Clone> Queue<T> {
 
                 dealloc(*head as *mut u8, layout);
                 self.head = next;
-                if self.length > 0{
+                if self.length > 0 {
                     self.length -= 1;
                 }
                 if self.length == 0 {
