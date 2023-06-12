@@ -42,8 +42,9 @@ impl<T: std::clone::Clone> Queue<T> {
         self.length += 1;
         if self.tail.is_some() {
             unsafe {
-                //1 self.tail.next = node
-                (*(*self.tail.as_mut().unwrap())).next = Some(raw);
+                //1 self.tail.next = node 
+                // double deref one for pointer one for mutable borrow
+                (**self.tail.as_mut().unwrap()).next = Some(raw);
                 //2 self.tail = node
                 self.tail = Some(raw);
             }
@@ -66,7 +67,9 @@ impl<T: std::clone::Clone> Queue<T> {
 
                 dealloc(*head as *mut u8, layout);
                 self.head = next;
-                self.length -= 1;
+                if self.length > 0{
+                    self.length -= 1;
+                }
                 if self.length == 0 {
                     self.tail = None;
                 }
@@ -78,7 +81,7 @@ impl<T: std::clone::Clone> Queue<T> {
     }
 
     pub fn peek(&self) -> Option<T> {
-        let head = self.head;
-        Some(unsafe { (*head?).data.clone() })
+        let head = self.head?;
+        Some(unsafe { (*head).data.clone() })
     }
 }

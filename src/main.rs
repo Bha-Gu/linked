@@ -1,6 +1,9 @@
 mod queue;
 use queue::Queue;
 
+mod stack;
+use stack::Stack;
+
 fn main() {
     let mut a = Queue::new();
     a.enqueue(8);
@@ -17,7 +20,25 @@ fn main() {
     println!("{:?}", a);
     a.dequeue();
     println!("{:?}", a);
-    
+
+    let mut c = Stack::new();
+    c.push(8);
+    println!("{:?}", c);
+    c.push(16);
+    println!("{:?}", c);
+    c.push(32);
+    println!("{:?}", c);
+    let d = c.peek();
+    println!("{:?}\n{:?}", c, d);
+    c.pop();
+    let d = c.peek();
+    println!("{:?}\n{:?}", c, d);
+    c.pop();
+    let d = c.peek();
+    println!("{:?}\n{:?}", c, d);
+    c.pop();
+    let d = c.peek();
+    println!("{:?}\n{:?}", c, d);
 }
 
 #[test]
