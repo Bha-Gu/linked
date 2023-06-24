@@ -25,7 +25,7 @@ impl<T: std::clone::Clone> Drop for Queue<T> {
 }
 
 impl<T: std::clone::Clone> Queue<T> {
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         Self {
             length: 0,
             head: None,
@@ -38,17 +38,17 @@ impl<T: std::clone::Clone> Queue<T> {
         let raw = Box::into_raw(node);
 
         self.length += 1;
-        if self.tail.is_some() {
+
+        if let Some(tail) = &mut self.tail {
             unsafe {
                 //1 self.tail.next = node
-                // double deref one for pointer one for mutable borrow
-                (**self.tail.as_mut().unwrap()).next = Some(raw);
+                (**tail).next = Some(raw);
                 //2 self.tail = node
                 self.tail = Some(raw);
             }
         } else {
             self.head = Some(raw);
-            self.tail = Some(self.head.unwrap());
+            self.tail = self.head;
         }
 
         // self.tail =  Some( Box::from_raw( raw ));
@@ -63,7 +63,7 @@ impl<T: std::clone::Clone> Queue<T> {
 
                 let layout = Layout::for_value(&*head);
 
-                dealloc(*head as *mut u8, layout);
+                dealloc((*head).cast::<u8>(), layout);
                 self.head = next;
                 if self.length > 0 {
                     self.length -= 1;

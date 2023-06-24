@@ -24,7 +24,7 @@ impl<T: Clone> Drop for Stack<T> {
 }
 
 impl<T: Clone> Stack<T> {
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         Self { len: 0, head: None }
     }
 
@@ -51,7 +51,7 @@ impl<T: Clone> Stack<T> {
                 let prev = (**head).prev;
                 let data = (**head).data.clone();
                 let layout = Layout::for_value(&*head);
-                dealloc(*head as *mut u8, layout);
+                dealloc((*head).cast::<u8>(), layout);
                 self.head = prev;
                 if self.len > 0 {
                     self.len -= 1;

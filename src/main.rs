@@ -13,32 +13,32 @@ fn main() {
     a.enqueue(128);
     a.enqueue(256);
     let b = a.peek();
-    println!("{:?}\n{:?}", a, b);
+    println!("{a:?}\n{b:?}");
     a.dequeue();
-    println!("{:?}\n{:?}", a, b);
+    println!("{a:?}\n{b:?}");
     a.dequeue();
-    println!("{:?}", a);
+    println!("{a:?}");
     a.dequeue();
-    println!("{:?}", a);
+    println!("{a:?}");
 
     let mut c = Stack::new();
     c.push(8);
-    println!("{:?}", c);
+    println!("{c:?}");
     c.push(16);
-    println!("{:?}", c);
+    println!("{c:?}");
     c.push(32);
-    println!("{:?}", c);
+    println!("{c:?}");
     let d = c.peek();
-    println!("{:?}\n{:?}", c, d);
+    println!("{c:?}\n{d:?}");
     c.pop();
     let d = c.peek();
-    println!("{:?}\n{:?}", c, d);
+    println!("{c:?}\n{d:?}");
     c.pop();
     let d = c.peek();
-    println!("{:?}\n{:?}", c, d);
+    println!("{c:?}\n{d:?}");
     c.pop();
     let d = c.peek();
-    println!("{:?}\n{:?}", c, d);
+    println!("{c:?}\n{d:?}");
 }
 
 #[test]
