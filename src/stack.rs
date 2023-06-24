@@ -15,11 +15,7 @@ pub struct Stack<T: Clone> {
 
 impl<T: Clone> Drop for Stack<T> {
     fn drop(&mut self) {
-        loop {
-            if self.pop().is_none() {
-                break;
-            }
-        }
+        while self.pop().is_some() {}
     }
 }
 

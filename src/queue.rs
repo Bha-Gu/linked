@@ -16,11 +16,7 @@ pub struct Queue<T: std::clone::Clone> {
 
 impl<T: std::clone::Clone> Drop for Queue<T> {
     fn drop(&mut self) {
-        loop {
-            if self.dequeue().is_none() {
-                break;
-            }
-        }
+        while self.dequeue().is_some() {}
     }
 }
 
