@@ -27,7 +27,7 @@ pub struct DLList<T: Clone + PartialEq> {
 
 impl<T: Clone + PartialEq> Drop for DLList<T> {
     fn drop(&mut self) {
-        while self.pop().is_some() || self.unprepend().is_some() {}
+        while self.pop().is_some() && self.unprepend().is_some() {}
     }
 }
 
