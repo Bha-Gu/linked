@@ -39,13 +39,12 @@ impl<T: std::clone::Clone> Queue<T> {
             unsafe {
                 //1 self.tail.next = node
                 (**tail).next = Some(raw);
-                //2 self.tail = node
-                self.tail = Some(raw);
             }
         } else {
             self.head = Some(raw);
-            self.tail = self.head;
         }
+
+        self.tail = Some(raw);
 
         // self.tail =  Some( Box::from_raw( raw ));
     }

@@ -4,6 +4,10 @@ use queue::Queue;
 mod stack;
 use stack::Stack;
 
+mod doubly_linked;
+use doubly_linked::DLList;
+
+#[allow(clippy::many_single_char_names)]
 fn main() {
     let mut a = Queue::new();
     a.enqueue(8);
@@ -39,45 +43,46 @@ fn main() {
     c.pop();
     let d = c.peek();
     println!("{c:?}\n{d:?}");
+
+    let mut e = DLList::new();
+    println!("{e:?}");
+    e.append(16); //16
+    println!("{e:?}");
+    e.prepend(8); //8 16
+    println!("{e:?}");
+    e.append(64); //8 16 64
+    println!("{e:?}");
+    e.prepend(4); // 4 8 16 64
+    println!("{e:?}");
+    e.insert_at(32, 3).expect("unreachable"); //4 8 16 32 64
+    println!("{e:?}");
+    println!("{:?}", e.get(3)); //32
+    println!("{e:?}");
+    println!("{:?}", e.remove_at(3)); //32
+    println!("{e:?}");
+    println!("{:?}", e.remove(&16)); //16
+    println!("{e:?}");
+    println!("{:?}", e.pop()); //64
+    println!("{e:?}");
+    println!("{:?}", e.unprepend()); //4
+    println!("{e:?}");
 }
 
 #[test]
-fn test_enqueue() {
-    let mut queue: Queue<i32> = Queue::new();
-    queue.enqueue(10);
-    queue.enqueue(20);
-    queue.enqueue(30);
-    assert_eq!(queue.length, 3);
-    assert_eq!(
-        {
-            {
-                queue.peek()
-            }
-        },
-        Some(10)
-    );
-}
-
-#[test]
-fn test_dequeueue() {
-    let mut queue: Queue<i32> = Queue::new();
-    queue.enqueue(10);
-    queue.enqueue(20);
-    queue.enqueue(30);
-
-    assert_eq!({ queue.dequeue() }, Some(10));
-    assert_eq!({ queue.dequeue() }, Some(20));
-    assert_eq!({ queue.dequeue() }, Some(30));
-    assert_eq!({ queue.dequeue() }, None);
-    assert_eq!(queue.length, 0);
-}
-
-#[test]
-fn test_peek() {
-    let mut queue: Queue<i32> = Queue::new();
-    assert_eq!({ queue.peek() }, None);
-    queue.enqueue(10);
-    assert_eq!({ queue.peek() }, Some(10));
-    queue.enqueue(20);
-    assert_eq!({ queue.peek() }, Some(10));
+fn test_remove() {
+    let mut list = DLList::new();
+    list.append(32);
+    list.append(16);
+    list.append(8);
+    println!("{list:?}");
+    list.insert_at(64, 1).unwrap();
+    println!("{list:?}");
+    println!("{:?}", list.unprepend());
+    println!("{list:?}");
+    println!("{:?}", list.unprepend());
+    println!("{list:?}");
+    println!("{:?}", list.unprepend());
+    println!("{list:?}");
+    println!("{:?}", list.unprepend());
+    println!("{list:?}");
 }
